@@ -19,8 +19,8 @@ const RANKING_LEVELS: RankingLevel[] = [
   { level: 2, name: "Novice", description: "Getting the hang of it, some planning ahead", minScore: 16, maxScore: 25 },
   { level: 3, name: "Intermediate", description: "Decent word formation, strategic placement", minScore: 26, maxScore: 35 },
   { level: 4, name: "Advanced", description: "Strong vocabulary usage, good spatial planning", minScore: 36, maxScore: 50 },
-  { level: 5, name: "Expert", description: "Excellent word management, maximizing overlaps", minScore: 51, maxScore: 70 },
-  { level: 6, name: "Master", description: "Exceptional performance, rare to achieve", minScore: 71, maxScore: null }
+  { level: 5, name: "Expert", description: "Excellent word management, maximizing overlaps", minScore: 51, maxScore: 65 },
+  { level: 6, name: "Master", description: "Exceptional performance, rare to achieve", minScore: 66, maxScore: null }
 ];
 
 const getRanking = (score: number): RankingLevel => {
