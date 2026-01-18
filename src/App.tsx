@@ -6,6 +6,34 @@ import './App.css';
 type Cell = string | null;
 type Grid = Cell[][];
 
+interface RankingLevel {
+  level: number;
+  name: string;
+  description: string;
+  minScore: number;
+  maxScore: number | null;
+}
+
+const RANKING_LEVELS: RankingLevel[] = [
+  { level: 1, name: "Beginner", description: "Learning the game, few valid words", minScore: 0, maxScore: 15 },
+  { level: 2, name: "Novice", description: "Getting the hang of it, some planning ahead", minScore: 16, maxScore: 25 },
+  { level: 3, name: "Intermediate", description: "Decent word formation, strategic placement", minScore: 26, maxScore: 35 },
+  { level: 4, name: "Advanced", description: "Strong vocabulary usage, good spatial planning", minScore: 36, maxScore: 50 },
+  { level: 5, name: "Expert", description: "Excellent word management, maximizing overlaps", minScore: 51, maxScore: 70 },
+  { level: 6, name: "Master", description: "Exceptional performance, rare to achieve", minScore: 71, maxScore: null }
+];
+
+const getRanking = (score: number): RankingLevel => {
+  for (const level of RANKING_LEVELS) {
+    if (level.maxScore === null) {
+      if (score >= level.minScore) return level;
+    } else {
+      if (score >= level.minScore && score <= level.maxScore) return level;
+    }
+  }
+  return RANKING_LEVELS[0];
+};
+
 function App() {
   const [grid, setGrid] = useState<Grid>(() =>
     Array(5).fill(null).map(() => Array(5).fill(null))
@@ -153,9 +181,20 @@ function App() {
           <div className="game-over">
             <h2>Game Over!</h2>
 
-            <div className="final-score">
-              <h3>Final Score: {score.total}</h3>
+            {(() => {
+              const ranking = getRanking(score.total);
+              return (
+                <div className="ranking-display">
+                  <h3 className="ranking-title">
+                    Level {ranking.level} of 6: {ranking.name}
+                  </h3>
+                  <p className="ranking-score">{score.total} points</p>
+                  <p className="ranking-description">({ranking.description})</p>
+                </div>
+              );
+            })()}
 
+            <div className="final-score">
             {score.fourPointWords.length > 0 && (
               <div className="word-category">
                 <h4>4 points:</h4>

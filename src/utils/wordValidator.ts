@@ -29,14 +29,44 @@ export interface GameScore {
 }
 
 /**
+ * Extract contiguous letter sequences from a row/column
+ * Returns array of strings, each representing a contiguous sequence of letters
+ */
+const extractContiguousSequences = (cells: (string | null)[]): string[] => {
+  const sequences: string[] = [];
+  let currentSequence = '';
+
+  for (const cell of cells) {
+    if (cell) {
+      currentSequence += cell;
+    } else {
+      if (currentSequence.length > 0) {
+        sequences.push(currentSequence);
+        currentSequence = '';
+      }
+    }
+  }
+
+  // Don't forget the last sequence
+  if (currentSequence.length > 0) {
+    sequences.push(currentSequence);
+  }
+
+  return sequences;
+};
+
+/**
  * Extract all substrings of length 3, 4, and 5 from a string
  */
 const extractSubstrings = (str: string): string[] => {
   const substrings: string[] = [];
 
+  // Only extract if string is long enough
   for (let length = 3; length <= 5; length++) {
-    for (let i = 0; i <= str.length - length; i++) {
-      substrings.push(str.substring(i, i + length));
+    if (str.length >= length) {
+      for (let i = 0; i <= str.length - length; i++) {
+        substrings.push(str.substring(i, i + length));
+      }
     }
   }
 
@@ -52,26 +82,27 @@ export const calculateScore = (grid: (string | null)[][]): GameScore => {
 
   // Check all 5 rows (horizontal)
   for (let row = 0; row < 5; row++) {
-    const rowStr = grid[row].map(cell => cell || '').join('');
-    if (rowStr.length > 0) {
-      extractSubstrings(rowStr).forEach(substr => {
+    const sequences = extractContiguousSequences(grid[row]);
+    sequences.forEach(sequence => {
+      extractSubstrings(sequence).forEach(substr => {
         if (isValidWord(substr)) {
           foundWords.add(substr);
         }
       });
-    }
+    });
   }
 
   // Check all 5 columns (vertical)
   for (let col = 0; col < 5; col++) {
-    const colStr = grid.map(row => row[col] || '').join('');
-    if (colStr.length > 0) {
-      extractSubstrings(colStr).forEach(substr => {
+    const column = grid.map(row => row[col]);
+    const sequences = extractContiguousSequences(column);
+    sequences.forEach(sequence => {
+      extractSubstrings(sequence).forEach(substr => {
         if (isValidWord(substr)) {
           foundWords.add(substr);
         }
       });
-    }
+    });
   }
 
   // Categorize words by points
