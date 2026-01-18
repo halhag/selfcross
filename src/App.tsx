@@ -22,9 +22,6 @@ function App() {
   });
   const [gameOver, setGameOver] = useState(false);
 
-  const filledCells = grid.flat().filter(cell => cell !== null).length;
-  const remainingCells = 25 - filledCells;
-
   const handleDragStart = (letter: string) => {
     setDraggedLetter(letter);
   };
@@ -77,7 +74,6 @@ function App() {
 
       <div className="score-display">
         <div className="score-value">Score: {score.total}</div>
-        <div className="remaining-cells">Remaining: {remainingCells}</div>
       </div>
 
       <div className="game-board">
@@ -116,10 +112,16 @@ function App() {
       )}
 
       {gameOver && (
-        <div className="game-over">
-          <h2>Game Over!</h2>
-          <div className="final-score">
-            <h3>Final Score: {score.total}</h3>
+        <>
+          <button className="new-game-btn" onClick={handleNewGame}>
+            New Game
+          </button>
+
+          <div className="game-over">
+            <h2>Game Over!</h2>
+
+            <div className="final-score">
+              <h3>Final Score: {score.total}</h3>
 
             {score.fourPointWords.length > 0 && (
               <div className="word-category">
@@ -142,11 +144,8 @@ function App() {
               </div>
             )}
           </div>
-
-          <button className="new-game-btn" onClick={handleNewGame}>
-            New Game
-          </button>
         </div>
+        </>
       )}
     </div>
   );
