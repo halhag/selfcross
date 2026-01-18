@@ -139,6 +139,16 @@ h1 {
   transform: scale(0.95);
 }
 
+.letter-tile.selected {
+  border: 3px solid #fff;
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.8);
+}
+
+.grid-cell.empty.clickable {
+  cursor: pointer;
+}
+
 .game-over {
   margin-top: 2rem;
   padding: 2rem;

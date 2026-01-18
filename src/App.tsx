@@ -14,6 +14,7 @@ function App() {
     generateRandomLetters(3)
   );
   const [draggedLetter, setDraggedLetter] = useState<string | null>(null);
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [score, setScore] = useState<GameScore>({
     total: 0,
     onePointWords: [],
@@ -29,6 +30,36 @@ function App() {
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
   };
+
+  const handleLetterClick = (letter: string) => {
+    setSelectedLetter(letter);
+  };
+
+  const handleCellClick = useCallback((row: number, col: number) => {
+    if (!selectedLetter || grid[row][col] !== null) return;
+
+    // Place the letter
+    const newGrid = grid.map((r, i) =>
+      i === row ? r.map((c, j) => j === col ? selectedLetter : c) : [...r]
+    );
+    setGrid(newGrid);
+
+    // Calculate new score
+    const newScore = calculateScore(newGrid);
+    setScore(newScore);
+
+    // Check if game is over
+    const newFilledCells = newGrid.flat().filter(cell => cell !== null).length;
+    if (newFilledCells === 25) {
+      setGameOver(true);
+      setAvailableLetters([]);
+    } else {
+      // Generate new letters
+      setAvailableLetters(generateRandomLetters(3));
+    }
+
+    setSelectedLetter(null);
+  }, [selectedLetter, grid]);
 
   const handleDrop = useCallback((row: number, col: number) => {
     if (!draggedLetter || grid[row][col] !== null) return;
@@ -82,9 +113,10 @@ function App() {
             {row.map((cell, colIndex) => (
               <div
                 key={`${rowIndex}-${colIndex}`}
-                className={`grid-cell ${cell ? 'filled' : 'empty'}`}
+                className={`grid-cell ${cell ? 'filled' : 'empty'} ${selectedLetter && !cell ? 'clickable' : ''}`}
                 onDragOver={handleDragOver}
                 onDrop={() => handleDrop(rowIndex, colIndex)}
+                onClick={() => handleCellClick(rowIndex, colIndex)}
               >
                 {cell}
               </div>
@@ -100,9 +132,10 @@ function App() {
             {availableLetters.map((letter, index) => (
               <div
                 key={`${letter}-${index}`}
-                className="letter-tile"
+                className={`letter-tile ${selectedLetter === letter ? 'selected' : ''}`}
                 draggable
                 onDragStart={() => handleDragStart(letter)}
+                onClick={() => handleLetterClick(letter)}
               >
                 {letter}
               </div>
