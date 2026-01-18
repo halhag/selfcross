@@ -199,22 +199,87 @@ h1 {
 
 @media (max-width: 640px) {
   .app {
-    padding: 1rem;
+    padding: 0.75rem;
+    max-width: 100%;
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .score-display {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .score-value {
+    font-size: 1rem;
+  }
+
+  .game-board {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   .grid-cell {
-    width: 50px;
-    height: 50px;
+    width: 50px !important;
+    height: 50px !important;
     font-size: 1.5rem;
+    margin: 1px;
+  }
+
+  .letter-selection {
+    margin-top: 1rem;
+  }
+
+  .letter-selection p {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .available-letters {
+    gap: 0.5rem;
   }
 
   .letter-tile {
-    width: 70px;
-    height: 70px;
-    font-size: 1.8rem;
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 1.5rem;
+  }
+
+  .new-game-btn {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+  }
+
+  .game-over {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .game-over h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .final-score h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .word-category {
+    margin: 1rem 0;
+    padding: 0.75rem;
+  }
+
+  .word-category h4 {
+    font-size: 1rem;
+  }
+
+  .word-category p {
+    font-size: 0.9rem;
   }
 }
