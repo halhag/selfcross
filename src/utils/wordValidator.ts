@@ -78,7 +78,7 @@ const extractSubstrings = (str: string): string[] => {
  * @param grid 5x5 array of letters (empty cells are null or empty string)
  */
 export const calculateScore = (grid: (string | null)[][]): GameScore => {
-  const foundWords = new Set<string>();
+  const foundWords: string[] = [];
 
   // Check all 5 rows (horizontal)
   for (let row = 0; row < 5; row++) {
@@ -86,7 +86,7 @@ export const calculateScore = (grid: (string | null)[][]): GameScore => {
     sequences.forEach(sequence => {
       extractSubstrings(sequence).forEach(substr => {
         if (isValidWord(substr)) {
-          foundWords.add(substr);
+          foundWords.push(substr);
         }
       });
     });
@@ -99,7 +99,7 @@ export const calculateScore = (grid: (string | null)[][]): GameScore => {
     sequences.forEach(sequence => {
       extractSubstrings(sequence).forEach(substr => {
         if (isValidWord(substr)) {
-          foundWords.add(substr);
+          foundWords.push(substr);
         }
       });
     });
@@ -124,7 +124,7 @@ export const calculateScore = (grid: (string | null)[][]): GameScore => {
     }
   });
 
-  // Sort alphabetically
+  // Sort alphabetically (duplicates will appear together)
   onePointWords.sort();
   twoPointWords.sort();
   fourPointWords.sort();
